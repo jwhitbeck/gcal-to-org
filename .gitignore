@@ -1,0 +1,6 @@
+/target/
+/.classpath
+/.settings/
+/.project
+workbench.xmi
+/dependency-reduced-pom.xml
