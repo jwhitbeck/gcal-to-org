@@ -153,7 +153,6 @@ public final class GoogleCalendarToOrg {
     throws IOException {
     com.google.api.services.calendar.model.Calendar calendar
         = client.calendars().get(calendarConf.getId()).execute();
-    System.err.println(calendarConf.getTags());
     if (calendarConf.getTags() != null) {
       System.out.println("* " + calendar.getSummary() + " " + calendarConf.getTags());
     } else {
