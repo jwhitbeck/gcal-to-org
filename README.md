@@ -55,7 +55,13 @@ Everyone's setup is different, but in case you are interested, here is how I cal
   "Create work agenda file by pulling from Google Calendar."
   (if (eq (call-process "java" nil `(:file ,my-work-agenda-file) nil
                         "-jar" "/home/sean/bin/gcal-to-org-0.0.1-SNAPSHOT.jar") 0)
-      (message "Successfully updated %s" my-work-agenda-file)
+      (progn
+        ;; Revert work buffer if it exists
+        (let ((buf (find-buffer-visiting my-work-agenda-file)))
+          (when buf
+            (with-current-buffer buf
+                (revert-buffer nil t))))
+        (message "Successfully updated %s" my-work-agenda-file))
     (message "Failed to update %s" my-work-agenda-file)))
 
 ;;; Add command to call gcal-to-org from the agenda dispatch view. Bound to "w" key.
