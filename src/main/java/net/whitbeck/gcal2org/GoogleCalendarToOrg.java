@@ -278,6 +278,19 @@ public final class GoogleCalendarToOrg {
     }
   }
 
+  private static boolean keepCalendarEvent(CalendarConfiguration calendarConf, Event event) {
+    // for the moment, just return false if we have responded no to the invitation
+    if (event.getAttendees() != null) {
+      for (EventAttendee attendee : event.getAttendees()) {
+        if (calendarConf.getId().equals(attendee.getEmail()) &&
+            "declined".equals(attendee.getResponseStatus())) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   private static void printOrgCalendarEvents(Configuration conf,
                                              CalendarConfiguration calendarConf)
     throws IOException {
@@ -287,7 +300,9 @@ public final class GoogleCalendarToOrg {
         .setSingleEvents(true)
         .execute();
     for (Event event : events.getItems()) {
-      printOrgCalendarEvent(conf, event);
+      if (keepCalendarEvent(calendarConf, event)) {
+        printOrgCalendarEvent(conf, event);
+      }
     }
   }
 
