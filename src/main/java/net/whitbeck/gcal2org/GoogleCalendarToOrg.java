@@ -89,7 +89,8 @@ public final class GoogleCalendarToOrg {
     // load client secrets
     GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(
         JSON_FACTORY,
-        new InputStreamReader(GoogleCalendarToOrg.class.getResourceAsStream("/client_id.json")));
+        new InputStreamReader(GoogleCalendarToOrg.class.getResourceAsStream("/client_id.json"),
+                              "UTF-8"));
     // set up authorization code flow
     GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
         httpTransport, JSON_FACTORY, clientSecrets,
