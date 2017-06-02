@@ -112,7 +112,7 @@ final class Configuration {
     } else if (name.equals("creator")) {
       return builder.setCreatorKey(value);
     } else if (name.equals("hangoutlink")) {
-      return builder.setHanghoutLinkKey(value);
+      return builder.setHangoutLinkKey(value);
     } else if (name.equals("htmllink")) {
       return builder.setHtmlLinkKey(value);
     } else if (name.equals("creationtime")) {
@@ -235,7 +235,7 @@ final class Configuration {
       return this;
     }
 
-    private Builder setHanghoutLinkKey(String value) {
+    private Builder setHangoutLinkKey(String value) {
       hangoutLinkKey = value;
       return this;
     }
