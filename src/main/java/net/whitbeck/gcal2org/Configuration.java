@@ -13,7 +13,9 @@
 package net.whitbeck.gcal2org;
 
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -173,11 +175,13 @@ final class Configuration {
   static Configuration load(File file) throws IOException {
     Builder builder = new Builder();
     Properties props = new Properties();
-    props.load(new FileReader(file));
-    for (Map.Entry<Object, Object> entry : props.entrySet()) {
-      setProperty(builder,
-                  ((String)entry.getKey()).toLowerCase(),
-                  (String)entry.getValue());
+    try (Reader rdr = new InputStreamReader(new FileInputStream(file), "UTF-8")) {
+      props.load(rdr);
+      for (Map.Entry<Object, Object> entry : props.entrySet()) {
+        setProperty(builder,
+                    ((String)entry.getKey()).toLowerCase(),
+                    (String)entry.getValue());
+      }
     }
     return builder.build();
   }
