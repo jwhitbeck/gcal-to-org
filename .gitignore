@@ -1,9 +1,4 @@
 /target/
-/.classpath
-/.settings/
-/.project
-workbench.xmi
-/dependency-reduced-pom.xml
 /gcal-to-org.js
 /.cljs_node_repl/
 /.nrepl-history
