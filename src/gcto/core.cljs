@@ -153,17 +153,17 @@
     (a/pipe page-ch ch)
     ch))
 
-(def dow (into-array ["Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun"]))
+(def dow (into-array ["Sun" "Mon" "Tue" "Wed" "Thu" "Fri" "Sat"]))
 
 (defn- parse-date [s]
   (let [[y m d] (str/split s "-")]
-    (date/Date. (js/parseInt y) (js/parseInt m) (js/parseInt d))))
+    (date/Date. (js/parseInt y) (dec (js/parseInt m)) (js/parseInt d))))
 
 (defn- pad2 [n] (str (when (< n 10) "0") n))
 
 (defn- fmt-date [dt]
   (str (.getFullYear dt) "-" (pad2 (inc (.getMonth dt))) "-" (pad2 (.getDate dt))
-       " " (aget dow (.getWeekday dt))))
+       " " (aget dow (.getDay dt))))
 
 (defn- fmt-time [dt]
   (str (pad2 (.getHours dt)) ":" (pad2 (.getMinutes dt))))
@@ -208,7 +208,7 @@
       (println "#+FILETAGS:" (str/join " " filetags)))
     (when (seq tags)
       (println "#+TAGS:" (str/join " " tags)))
-    (println "#+COMMENT: Generated on" (.toIsoString now) "by gcal-to-org. Do not edit manually.")
+    (println "#+COMMENT: Generated on" (.toUTCRfc3339String now) "by gcal-to-org. Do not edit manually.")
     (println)))
 
 (defn- print-calendar-header [ct calendar descr]
@@ -227,9 +227,9 @@
   (println ":PROPERTIES:")
   (println ":CATEGORY:" ((category evt) (:categories ct)))
   (println ":status:" (aget evt "status"))
-  (println ":hangout-link" (aget evt "hangoutLink"))
-  (println ":html-link:" (aget evt "htmlLink"))
-  (println ":creator:" (person (aget evt "creator")))
+  (println ":hangout-link:" (str "[[" (aget evt "hangoutLink") "][hangout-link]]"))
+  (println ":html-link:" (str "[[" (aget evt "htmlLink") "][html-link]]"))
+  (println ":creator:"  (person (aget evt "creator")))
   (println ":created-at:" (aget evt "created"))
   (println ":attendees:" (str/join ", " (map person (aget evt "attendees"))))
   (println ":END:")
