@@ -1,0 +1,26 @@
+{
+  "name": "gcal-to-org",
+  "version": "0.0.1",
+  "description": "A simple CLI tool for exporting Google calendar events to emacs org-mode.",
+  "bin": {
+      "gcal-to-org": "gcal-to-org.js"
+  },
+  "files": ["gcal-to-org.js", "LICENSE.txt"],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jwhitbeck/gcal-to-org.git"
+  },
+  "author": "John Whitbeck <john@whitbeck.net>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/jwhitbeck/gcal-to-org/issues"
+  },
+  "homepage": "https://github.com/jwhitbeck/gcal-to-org#readme",
+  "dependencies": {
+      "googleapis": "19.0.0",
+      "google-auth-library": "0.10.0"
+  }
+}

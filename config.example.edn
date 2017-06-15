@@ -1,0 +1,18 @@
+;;; Example gcal-to-org config
+{;; Org-mode in-buffer setting. Gcal-to-org outputs these at the top of the file.
+ :title "Work calendar"       ; If set, write #+TITLE: <title> on the first line
+ :filetags ["work"]           ; The #+FILETAGS: setting. All entries in the output will be tagged with "work".
+ :tags ["work(w)" "team(t)"]  ; # The #+TAGS: setting. Here we create two tags with shortcut keys.
+
+ ;; Org-mode categories. Gcal-to-org currently support classifies entries as either appointements,
+ ;; i.e., calendar events that start/end at specific times), and all-day-events, i.e., calendar events
+ ;; that start and end on daily boundaries.
+ :categories {:appointment "Appt"       ; Assign all appointments to the "Appt" category.
+              :all-day "Event"}         ; Assign all all-day events to the "Event" category
+
+ ;; Calendars to export
+ :calendars [{:id "me@work.com"}        ; The google calendar id for this calendar.
+             {:id "work.com_qsdfjqsmlkfqqsdfaboiuzea@group.calendar.google.com"  ; The google calendar id.
+              :tags ["team"]            ; Add these tags to all entries in this calendar.
+              :from-days -10            ; Export up to 10 days in the past.
+              :to-days 30}]}            ; Export up to 30 days in the future.
