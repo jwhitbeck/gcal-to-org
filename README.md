@@ -12,33 +12,29 @@ using OAUTH, there is no need to make your calendar publicly available through a
 This tool is in the early stages and narrowly focused on my particular needs. However, it should be easy to
 adapt it to your use-case, and I would be happy to iterate on the design.
 
-## Usage
-
-First create the `$HOME/.gcal2org.properties` config file. Below is a minimal example for a single
-calendar. See [examples/gcal2org.properties](examples/gcal2org.properties) for a full commented example.
-
-```ini
-# Tag all the entries with the :work: tag
-filetags = work
-
-# Settings for export the "sean" calendar
-# The id of the calendar to export
-calendars.sean.id = sean@foo.io
-# Only import the events between 10 days ago and 30 days in the future
-calendars.sean.start = -10
-calendars.sean.end = 30
-```
-
-Then run just run the CLI tool to print org-mode text to stdout. Assuming you've downloaded the
-[latest gcal-to-org build](https://s3.amazonaws.com/gcal2org.whitbeck.net/gcal-to-org-0.0.1-SNAPSHOT.jar),
-it's as simple as:
+## Install
 
 ```bash
-$ java -jar gcal-to-org-0.0.1-SNAPSHOT.jar
+npm install -g gcal-to-org
 ```
 
-On the first run, it will open an OAUTH window in your default browser. Thereafter, it caches the credentials
-and behaves like any other CLI tool.
+## Usage
+
+First create a `config.edn` config file somwhere. Below is a minimal example for a single
+calendar. See [config.example.edn](config.example.edn) for a fully commented example.
+
+```clojure
+{:calendars [{:id "bob@gmail.com"}]}
+```
+
+Then run just run the CLI tool to print org-mode text to stdout.
+
+```bash
+gcal-to-org path/to/config.edn
+```
+
+On the first run, it will open an OAUTH window in your default browser and cache your OAUTH tokens to
+disk. On subsequent runs, it simply uses the cached credentials and behaves like any other CLI tool.
 
 ## Emacs integration
 
@@ -53,14 +49,12 @@ Everyone's setup is different, but in case you are interested, here is how I cal
 
 (defun my-update-work-agenda-file ()
   "Create work agenda file by pulling from Google Calendar."
-  (if (eq (call-process "java" nil `(:file ,my-work-agenda-file) nil
-                        "-jar" "/home/sean/bin/gcal-to-org-0.0.1-SNAPSHOT.jar") 0)
-      (progn
+  (if (zerop (call-process "gcal-to-org" nil `(:file ,my-work-agenda-file) nil "/path/to/config.edn"))
+      (let ((buf (find-buffer-visiting my-work-agenda-file)))
         ;; Revert work buffer if it exists
-        (let ((buf (find-buffer-visiting my-work-agenda-file)))
-          (when buf
-            (with-current-buffer buf
-                (revert-buffer nil t))))
+        (when buf
+          (with-current-buffer buf
+            (revert-buffer nil t)))
         (message "Successfully updated %s" my-work-agenda-file))
     (message "Failed to update %s" my-work-agenda-file)))
 
