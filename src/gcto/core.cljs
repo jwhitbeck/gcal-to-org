@@ -155,6 +155,7 @@
 
 (def dow (into-array ["Sun" "Mon" "Tue" "Wed" "Thu" "Fri" "Sat"]))
 
+;;; Hacky workaround because org-mode doesn't support timezones
 (defn- parse-date [s]
   (let [[y m d] (str/split s "-")]
     (date/Date. (js/parseInt y) (dec (js/parseInt m)) (js/parseInt d))))
@@ -263,7 +264,7 @@
 (defn -main [& args]
   (let [{:keys [summary options arguments]} (cli/parse-opts args cli-spec)]
     (if (or (:help options) (not= 1 (count arguments)))
-      (println (str "Usage: gcto <config file>\n\n" summary))
+      (println (str "Usage: gcal-to-org <config file>\n\n" summary))
       (run (context (read-config (first arguments)))))))
 
 (node/enable-util-print!)
