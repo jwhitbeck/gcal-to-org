@@ -236,6 +236,12 @@
   (println ":END:")
   (println (org-timestamp evt)))
 
+(defn- keep-event? [cal evt]
+  (not-any? (fn [attendee]
+              (and (= (:id cal) (aget attendee "email"))
+                   (= "declined" (aget attendee "responseStatus"))))
+            (aget evt "attendees")))
+
 (defn- run [ct]
   (go (let [{:keys [client-id client-secret calendars]} ct
             tokens (or (read-tokens ct) (<! (get-new-tokens ct)))
@@ -252,7 +258,8 @@
           (print-calendar-header ct calendar (<! descr-ch))
           (loop [evt (<! events-ch)]
             (when evt
-              (print-event ct evt)
+              (when (keep-event? calendar evt)
+                (print-event ct evt))
               (recur (<! events-ch)))))
         ;; If the auth tokens were refreshed, store the news ones to disk.
         (let [cur-tokens (.-credentials auth)]
