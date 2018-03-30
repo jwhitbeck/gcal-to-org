@@ -65,7 +65,7 @@
 (defn- context [config]
   (assoc config
          :now (date/DateTime.)
-         :open "xdg-open"
+         :open (if (= js/process.platform "darwin") "open" "xdg-open")
          :client-id "446550967979-2b0mme6g0j6g2l4i49lb5ni1qq0fjo8i.apps.googleusercontent.com"
          :client-secret "qdDcAyHZyjEDPikatIlaEOF9"
          :scope "https://www.googleapis.com/auth/calendar.readonly"
