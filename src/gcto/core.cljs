@@ -66,8 +66,6 @@
   (assoc config
          :now (date/DateTime.)
          :open (if (= js/process.platform "darwin") "open" "xdg-open")
-         :client-id "446550967979-2b0mme6g0j6g2l4i49lb5ni1qq0fjo8i.apps.googleusercontent.com"
-         :client-secret "qdDcAyHZyjEDPikatIlaEOF9"
          :scope "https://www.googleapis.com/auth/calendar.readonly"
          :credentials-file (.join path (aget js/process.env "HOME") ".cache" "gcal-to-org" "credentials.json")))
 

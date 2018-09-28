@@ -12,7 +12,8 @@ using OAUTH, there is no need to make your calendar publicly available through a
 This tool is in the early stages and narrowly focused on my particular needs. However, it should be easy to
 adapt it to your use-case, and I would be happy to iterate on the design.
 
-## Install
+
+## Installation
 
 ```bash
 npm install -g gcal-to-org
@@ -24,7 +25,10 @@ First create a `config.edn` config file somwhere. Below is a minimal example for
 calendar. See [config.example.edn](config.example.edn) for a fully commented example.
 
 ```clojure
-{:calendars [{:id "bob@gmail.com"}]}
+{:calendars [{:id "bob@gmail.com"}]
+ ;; Google API credentials (see below)
+ :client-id "123456789-abcdedfhijklmopqrst0123.apps.googleusercontent.com"
+ :client-secret "qDcAHZyjdEDikPtIaaElOyF9"}
 ```
 
 Then run just run the CLI tool to print org-mode text to stdout.
@@ -35,6 +39,23 @@ gcal-to-org path/to/config.edn
 
 On the first run, it will open an OAUTH window in your default browser and cache your OAUTH tokens to
 disk. On subsequent runs, it simply uses the cached credentials and behaves like any other CLI tool.
+
+
+## Obtaining Google API credentials
+
+You need to register gcal-to-org as an application yourself to obtain a _Client ID_ and _Client secret_.
+
+Go to the Google API Manager and create a new project under any name.
+
+Within that project, enable the "Calendar" API. There should be a searchbox where you can just enter those
+terms.
+
+In the sidebar, select "Credentials" and then create a new "OAuth Client ID". The application type is "Other".
+
+You’ll be prompted to create a OAuth consent screen first. Fill out that form however you like.
+
+Finally you should have a _Client ID_ and a _Client secret_. Provide these in the config below.
+
 
 ## Emacs integration
 

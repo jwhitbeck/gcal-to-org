@@ -1,5 +1,10 @@
 ;;; Example gcal-to-org config
-{;; Org-mode in-buffer setting. Gcal-to-org outputs these at the top of the file.
+{
+ ;; Google API credentials
+ :client-id "123456789-abcdedfhijklmopqrst0123.apps.googleusercontent.com"
+ :client-secret "qDcAHZyjdEDikPtIaaElOyF9"
+
+ ;; Org-mode in-buffer settings. Gcal-to-org outputs these at the top of the file.
  :title "Work calendar"       ; If set, write #+TITLE: <title> on the first line
  :filetags ["work"]           ; The #+FILETAGS: setting. All entries in the output will be tagged with "work".
  :tags ["work(w)" "team(t)"]  ; # The #+TAGS: setting. Here we create two tags with shortcut keys.
@@ -15,4 +20,6 @@
              {:id "work.com_qsdfjqsmlkfqqsdfaboiuzea@group.calendar.google.com"  ; The google calendar id.
               :tags ["team"]            ; Add these tags to all entries in this calendar.
               :from-days -10            ; Export up to 10 days in the past.
-              :to-days 30}]}            ; Export up to 30 days in the future.
+              :to-days 30}]             ; Export up to 30 days in the future.
+
+ }
