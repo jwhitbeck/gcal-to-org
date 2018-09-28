@@ -4,7 +4,7 @@
                           [org.clojure/tools.cli "0.3.5"]
                           [cljsjs/nodejs-externs "1.0.4-1"]
                           [adzerk/boot-cljs "2.0.0"]
-                          [com.cemerick/piggieback "0.2.2"]
+                          [cider/piggieback "0.3.9"]
                           [org.clojure/tools.nrepl "0.2.13"]]
           :source-paths #{"src"})
 
@@ -18,7 +18,7 @@
                           :optimizations :advanced
                           :externs ["src/externs/google.js"]}})
 
-(swap! boot.repl/*default-middleware* conj 'cemerick.piggieback/wrap-cljs-repl)
+(swap! boot.repl/*default-middleware* conj 'cider.piggieback/wrap-cljs-repl)
 
 (deftask npm
   "Install NPM dependencies."
